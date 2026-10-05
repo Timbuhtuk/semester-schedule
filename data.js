@@ -941,6 +941,14 @@ window.SCHEDULE_DATA = {
       "title": "Архитектура, гр. 4"
     },
     {
+      "id": "e30",
+      "date": "2026-10-05",
+      "start": "16:20",
+      "end": "17:50",
+      "source": "uvt",
+      "title": "Немецкий"
+    },
+    {
       "id": "e31",
       "date": "2026-10-06",
       "start": "16:20",
@@ -1220,6 +1228,14 @@ window.SCHEDULE_DATA = {
       "end": "16:10",
       "source": "retake",
       "title": "Архитектура, гр. 4"
+    },
+    {
+      "id": "e66",
+      "date": "2026-10-19",
+      "start": "16:20",
+      "end": "17:50",
+      "source": "uvt",
+      "title": "Немецкий"
     },
     {
       "id": "e67",
@@ -1510,6 +1526,14 @@ window.SCHEDULE_DATA = {
       "title": "ЯПЗТ — ЯКІСТЬ (ДЕМЧУК)"
     },
     {
+      "id": "e103",
+      "date": "2026-11-02",
+      "start": "16:20",
+      "end": "17:50",
+      "source": "uvt",
+      "title": "Немецкий"
+    },
+    {
       "id": "e104",
       "date": "2026-11-03",
       "start": "16:20",
@@ -1796,6 +1820,14 @@ window.SCHEDULE_DATA = {
       "end": "16:10",
       "source": "retake",
       "title": "Архитектура, гр. 4"
+    },
+    {
+      "id": "e140",
+      "date": "2026-11-16",
+      "start": "16:20",
+      "end": "17:50",
+      "source": "uvt",
+      "title": "Немецкий"
     },
     {
       "id": "e141",
@@ -2342,6 +2374,14 @@ window.SCHEDULE_DATA = {
       "title": "ЯПЗТ — ЯКІСТЬ (ДЕМЧУК)"
     },
     {
+      "id": "e209",
+      "date": "2026-12-14",
+      "start": "16:20",
+      "end": "17:50",
+      "source": "uvt",
+      "title": "Немецкий"
+    },
+    {
       "id": "e210",
       "date": "2026-12-15",
       "start": "16:20",
@@ -2596,6 +2636,14 @@ window.SCHEDULE_DATA = {
       "end": "16:10",
       "source": "retake",
       "title": "Архитектура, гр. 4"
+    },
+    {
+      "id": "e242",
+      "date": "2027-01-18",
+      "start": "16:20",
+      "end": "17:50",
+      "source": "uvt",
+      "title": "Немецкий"
     },
     {
       "id": "e243",
