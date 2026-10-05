@@ -171,7 +171,7 @@ a { color: inherit; }
 .source-toggle[aria-pressed="false"] { opacity: .48; background: var(--canvas); }
 .source-toggle[aria-pressed="true"] { border-color: var(--text); }
 .optional-explainer { max-width: 900px; margin: 0 0 16px; color: var(--secondary); line-height: 1.6; }
-.timeline-scroll { overflow: auto; max-height: min(78vh, 980px); border: 1px solid var(--border); background: var(--panel); }
+.timeline-scroll { overflow: auto; max-height: none; border: 1px solid var(--border); background: var(--panel); }
 .timeline { min-width: calc(72px + var(--day-count) * 158px); }
 .timeline__header, .timeline__body { display: grid; grid-template-columns: 72px repeat(var(--day-count), minmax(158px, 1fr)); }
 .timeline__header { position: sticky; top: 0; z-index: 8; gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
