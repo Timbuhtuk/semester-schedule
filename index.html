@@ -26,7 +26,7 @@
         <div>
           <p class="eyebrow">ЛИЧНОЕ РАСПИСАНИЕ / СЕМЕСТР 01</p>
           <h1 id="page-title">Все пары.<br><span>В одном месте.</span></h1>
-          <p class="intro-copy">UVT и ХНУРЕ с 28 сентября 2026 по 23 января 2027. Основные занятия, запасные группы для долгов и учёт посещений — в отдельных режимах.</p>
+          <p class="intro-copy">UVT и ХНУРЕ с 28 сентября 2026 по 23 января 2027. Основные занятия, запасные группы для долгов и учёт посещений — в одном календаре.</p>
         </div>
         <div class="intro-aside" aria-label="Состав расписания">
           <span class="intro-aside__number">17</span>
@@ -38,7 +38,6 @@
 
       <nav class="mode-tabs" aria-label="Раздел сайта">
         <button id="mode-schedule" class="mode-tab" type="button" aria-pressed="true">Расписание</button>
-        <button id="mode-optional" class="mode-tab" type="button" aria-pressed="false">Другие группы долгов</button>
         <button id="mode-progress" class="mode-tab" type="button" aria-pressed="false">Учёт</button>
       </nav>
 
@@ -54,12 +53,13 @@
           </div>
         </div>
 
-        <div id="source-toggles" class="source-toggles" role="group" aria-label="Показывать университеты">
+        <div id="source-toggles" class="source-toggles" role="group" aria-label="Показывать расписания">
           <span>ПОКАЗЫВАТЬ</span>
           <button id="toggle-uvt" class="source-toggle" type="button" aria-pressed="true"><i class="source-marker source-marker--uvt"></i> UVT</button>
           <button id="toggle-second" class="source-toggle" type="button" aria-pressed="true"><i class="source-marker source-marker--second"></i> ХНУРЕ</button>
+          <button id="toggle-optional" class="source-toggle" type="button" aria-pressed="false"><i class="source-marker source-marker--retake"></i> Другие группы долгов</button>
         </div>
-        <p id="optional-explainer" class="optional-explainer" hidden>Варианты с других групп первого курса. Это запасное расписание: математика, архитектура и испанский здесь не добавляются к обязательным посещениям.</p>
+        <p id="optional-explainer" class="optional-explainer" hidden>Показаны запасные занятия других групп первого курса. Они наложены на основной календарь и учитываются при поиске пересечений.</p>
 
         <div class="toolbar">
           <div class="period-controls">

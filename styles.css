@@ -174,7 +174,7 @@ a { color: inherit; }
 .mode-tab:last-child { border-right: 0; }
 .mode-tab:hover { background: var(--hover); color: var(--text); }
 .mode-tab[aria-pressed="true"] { background: var(--text); color: var(--canvas); font-weight: 700; }
-.source-toggles { display: flex; align-items: center; gap: 7px; margin: 0 0 14px; }
+.source-toggles { display: flex; flex-wrap: wrap; align-items: center; gap: 7px; margin: 0 0 14px; }
 .source-toggles > span { margin-right: 9px; color: var(--muted); font-size: 10px; letter-spacing: .11em; }
 .source-toggle { display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 7px 12px; border: 1px solid var(--border); background: var(--panel); color: var(--text); }
 .source-toggle[aria-pressed="false"] { opacity: .48; background: var(--canvas); }
@@ -297,7 +297,7 @@ a { color: inherit; }
   .method { grid-template-columns: 1fr; gap: 10px; }
   .footer { flex-direction: column; }
   .mode-tabs { flex-wrap: wrap; }
-  .mode-tab { min-width: 33%; padding: 10px 8px; font-size: 11px; text-align: center; }
+  .mode-tab { min-width: 50%; padding: 10px 8px; font-size: 11px; text-align: center; }
   .timeline { min-width: calc(62px + var(--day-count) * 150px); }
   .timeline__header, .timeline__body { grid-template-columns: 62px repeat(var(--day-count), minmax(150px, 1fr)); }
   .timeline__axis span { right: 6px; font-size: 9px; }

@@ -8,12 +8,6 @@
   const dayNamesShort = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
   const sourceNames = { uvt: "UVT · 2 курс", retake: "Долг · обычная группа", second: "ХНУРЕ", sport: "UVT · физкультура", alternate: "Долг · другая группа" };
   const daysByDate = new Map(data.days.map(day => [day.date, day]));
-  const eventsByDate = new Map();
-  for (const event of [...data.events, ...data.optionalRetakes]) {
-    if (!eventsByDate.has(event.date)) eventsByDate.set(event.date, []);
-    eventsByDate.get(event.date).push(event);
-  }
-  for (const events of eventsByDate.values()) events.sort((a, b) => a.start.localeCompare(b.start) || a.title.localeCompare(b.title));
 
   const asDate = iso => new Date(`${iso}T12:00:00Z`);
   const isoDate = date => date.toISOString().slice(0, 10);
@@ -29,11 +23,10 @@
     const byEvent = new Map();
     const byDate = new Map();
     for (const [date, events] of visible) {
-      const reference = state.mode === "optional" ? (eventsByDate.get(date) ?? []).filter(event => event.source !== "alternate") : events;
       for (let q = 0; q < events.length; q++) {
-        for (let e = state.mode === "optional" ? 0 : q + 1; e < reference.length; e++) {
+        for (let e = q + 1; e < events.length; e++) {
           const first = events[q];
-          const second = reference[e];
+          const second = events[e];
           const firstEnd = first.end ? minute(first.end) : minute(first.start) + 90;
           const secondEnd = second.end ? minute(second.end) : minute(second.start) + 90;
           if (Math.max(minute(first.start), minute(second.start)) >= Math.min(firstEnd, secondEnd)) continue;
@@ -61,6 +54,7 @@
   }
 
   const query = new URLSearchParams(location.search);
+  const legacyOptionalMode = query.get("mode") === "optional";
   const today = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Kyiv", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
   const initialDate = query.get("date") && /^202[67]-\d\d-\d\d$/.test(query.get("date")) ? query.get("date") : today;
   const clampedDate = initialDate < data.meta.start ? data.meta.start : initialDate > data.meta.end ? data.meta.end : initialDate;
@@ -71,13 +65,14 @@
     return Math.max(0, previous);
   };
   const state = {
-    mode: ["schedule", "optional", "progress"].includes(query.get("mode")) ? query.get("mode") : "schedule",
+    mode: query.get("mode") === "progress" ? "progress" : "schedule",
     view: query.get("view") === "month" ? "month" : "week",
     weekIndex: findWeek(clampedDate),
     monthIndex: Math.max(0, months.indexOf(clampedDate.slice(0, 7))),
     selectedDay: clampedDate,
     showUvt: true,
     showSecond: true,
+    showOptional: legacyOptionalMode || query.get("alternates") === "1",
   };
 
   const elements = {
@@ -102,8 +97,8 @@
   };
 
   function selectEvents() {
-    const selected = state.mode === "optional" ? data.optionalRetakes :
-      data.events.filter(event => event.source === "second" ? state.showSecond : state.showUvt);
+    const selected = data.events.filter(event => event.source === "second" ? state.showSecond : state.showUvt);
+    if (state.showOptional) selected.push(...data.optionalRetakes);
     visibleByDate = new Map();
     for (const event of selected) {
       if (!visibleByDate.has(event.date)) visibleByDate.set(event.date, []);
@@ -322,11 +317,13 @@
     url.searchParams.set("mode", state.mode);
     url.searchParams.set("view", state.view);
     url.searchParams.set("date", state.view === "week" ? data.weeks[state.weekIndex].start : state.selectedDay);
+    if (state.showOptional) url.searchParams.set("alternates", "1");
+    else url.searchParams.delete("alternates");
     history.replaceState(null, "", url);
   }
 
   function render() {
-    for (const mode of ["schedule", "optional", "progress"])
+    for (const mode of ["schedule", "progress"])
       document.getElementById(`mode-${mode}`).setAttribute("aria-pressed", String(state.mode === mode));
     const progressMode = state.mode === "progress";
     elements.planner.hidden = progressMode;
@@ -335,11 +332,12 @@
     elements.progress.hidden = !progressMode;
     if (progressMode) renderProgress();
     else {
-      document.getElementById("planner-title").textContent = state.mode === "optional" ? "Другие группы долгов" : "Расписание";
-      document.getElementById("source-toggles").hidden = state.mode !== "schedule";
-      document.getElementById("optional-explainer").hidden = state.mode !== "optional";
+      document.getElementById("planner-title").textContent = "Расписание";
+      document.getElementById("source-toggles").hidden = false;
+      document.getElementById("optional-explainer").hidden = !state.showOptional;
       document.getElementById("toggle-uvt").setAttribute("aria-pressed", String(state.showUvt));
       document.getElementById("toggle-second").setAttribute("aria-pressed", String(state.showSecond));
+      document.getElementById("toggle-optional").setAttribute("aria-pressed", String(state.showOptional));
       selectEvents();
       renderControls();
       renderSummary();
@@ -371,10 +369,11 @@
     elements.dialog.showModal();
   }
 
-  for (const mode of ["schedule", "optional", "progress"])
+  for (const mode of ["schedule", "progress"])
     document.getElementById(`mode-${mode}`).addEventListener("click", () => { state.mode = mode; render(); });
   document.getElementById("toggle-uvt").addEventListener("click", () => { state.showUvt = !state.showUvt; render(); });
   document.getElementById("toggle-second").addEventListener("click", () => { state.showSecond = !state.showSecond; render(); });
+  document.getElementById("toggle-optional").addEventListener("click", () => { state.showOptional = !state.showOptional; render(); });
   elements.weekView.addEventListener("click", () => { state.view = "week"; state.weekIndex = findWeek(state.selectedDay); render(); });
   elements.monthView.addEventListener("click", () => { state.view = "month"; state.monthIndex = Math.max(0, months.indexOf(state.selectedDay.slice(0, 7))); render(); });
   elements.previous.addEventListener("click", () => movePeriod(-1));
