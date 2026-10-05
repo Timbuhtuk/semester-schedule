@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101010">
+  <meta name="description" content="Личное расписание на первый семестр 2026–2027: UVT, пересдачи и второй университет.">
+  <title>Расписание · семестр 1</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script src="data.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="masthead">
+      <div class="brand" aria-label="Личное расписание">
+        <span class="brand-mark" aria-hidden="true">T<span class="brand-mark__pixel"></span></span>
+        <span class="brand-copy">TIMETABLE <small>26 / 27</small></span>
+      </div>
+      <a class="reference-link" href="https://timbuhtuk.github.io/tessera-storybook/?path=/docs/02-components-actions-controls--docs&amp;globals=backgrounds.value:dark" target="_blank" rel="noopener noreferrer">Tessera Storybook ↗</a>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">ЛИЧНОЕ РАСПИСАНИЕ / СЕМЕСТР 01</p>
+          <h1 id="page-title">Все пары.<br><span>В одном месте.</span></h1>
+          <p class="intro-copy">UVT и ХНУРЕ с 28 сентября 2026 по 23 января 2027. Основные занятия, запасные группы для долгов и учёт посещений — в отдельных режимах.</p>
+        </div>
+        <div class="intro-aside" aria-label="Состав расписания">
+          <span class="intro-aside__number">17</span>
+          <span class="intro-aside__caption">НЕДЕЛЬ<br>В КАЛЕНДАРЕ</span>
+          <span class="intro-aside__line"></span>
+          <span class="intro-aside__small">UVT / ХНУРЕ</span>
+        </div>
+      </section>
+
+      <nav class="mode-tabs" aria-label="Раздел сайта">
+        <button id="mode-schedule" class="mode-tab" type="button" aria-pressed="true">Расписание</button>
+        <button id="mode-optional" class="mode-tab" type="button" aria-pressed="false">Другие группы долгов</button>
+        <button id="mode-progress" class="mode-tab" type="button" aria-pressed="false">Учёт</button>
+      </nav>
+
+      <section id="planner" class="planner" aria-labelledby="planner-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">01 / КАЛЕНДАРЬ</p>
+            <h2 id="planner-title">Расписание</h2>
+          </div>
+          <div class="view-switch" role="group" aria-label="Вид расписания">
+            <button id="week-view" class="control-button" type="button" aria-pressed="true">Неделя</button>
+            <button id="month-view" class="control-button" type="button" aria-pressed="false">Месяц</button>
+          </div>
+        </div>
+
+        <div id="source-toggles" class="source-toggles" role="group" aria-label="Показывать университеты">
+          <span>ПОКАЗЫВАТЬ</span>
+          <button id="toggle-uvt" class="source-toggle" type="button" aria-pressed="true"><i class="source-marker source-marker--uvt"></i> UVT</button>
+          <button id="toggle-second" class="source-toggle" type="button" aria-pressed="true"><i class="source-marker source-marker--second"></i> ХНУРЕ</button>
+        </div>
+        <p id="optional-explainer" class="optional-explainer" hidden>Варианты с других групп первого курса. Это запасное расписание: математика, архитектура и испанский здесь не добавляются к обязательным посещениям.</p>
+
+        <div class="toolbar">
+          <div class="period-controls">
+            <button id="previous" class="control-button icon-button" type="button" aria-label="Предыдущий период">←</button>
+            <button id="today" class="control-button" type="button">Сегодня</button>
+            <button id="next" class="control-button icon-button" type="button" aria-label="Следующий период">→</button>
+            <div class="period-current">
+              <span id="period-kicker">УЧЕБНАЯ НЕДЕЛЯ</span>
+              <strong id="period-label"></strong>
+            </div>
+          </div>
+          <label class="jump-control" for="period-select">
+            <span>ПЕРЕЙТИ К</span>
+            <select id="period-select" aria-label="Выбрать неделю или месяц"></select>
+          </label>
+        </div>
+
+        <div id="summary" class="summary" aria-live="polite"></div>
+        <div class="legend" aria-label="Обозначения">
+          <span><i class="source-marker source-marker--uvt"></i> UVT, 2 курс</span>
+          <span><i class="source-marker source-marker--retake"></i> Пересдача</span>
+          <span><i class="source-marker source-marker--second"></i> ХНУРЕ</span>
+          <span><i class="source-marker source-marker--sport"></i> Физкультура · UVT</span>
+          <span class="legend-alert"><i class="source-marker source-marker--alert"></i> Возможное пересечение</span>
+        </div>
+
+        <div id="calendar" class="calendar" aria-live="polite"></div>
+      </section>
+
+      <section id="conflicts" class="conflicts" aria-labelledby="conflicts-title"></section>
+
+      <section id="progress" class="progress" aria-labelledby="progress-title" hidden>
+        <p class="eyebrow">02 / ЛИЧНЫЙ УЧЁТ</p>
+        <h2 id="progress-title">Посещения и работы</h2>
+        <p class="progress-intro">Отмечай посещения UVT и готовые работы ХНУРЕ. Данные сохраняются только в этом браузере.</p>
+        <div id="progress-content"></div>
+      </section>
+
+      <section id="method" class="method" aria-labelledby="method-title">
+        <div>
+          <p class="eyebrow">02 / КАК ЧИТАТЬ</p>
+          <h2 id="method-title">О пересечениях</h2>
+        </div>
+        <div class="method-copy">
+          <p>У занятий UVT указано время начала и окончания. Для ХНУРЕ известно только начало, поэтому близкие пары помечены как <strong>возможное пересечение</strong>. Проверка использует окно в 90 минут от указанного начала и не утверждает длительность занятия.</p>
+          <p>Дату занятия ЯПЗТ 19 октября в 07:45 нужно подтвердить: в исходной записи было «19:10-7:45».</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>ЛИЧНОЕ РАСПИСАНИЕ · 2026–2027</span>
+      <span>ДАННЫЕ ИЗ СОСТАВЛЕННЫХ ТАБЛИЦ</span>
+    </footer>
+  </div>
+
+  <dialog id="event-dialog" class="event-dialog" aria-labelledby="dialog-title">
+    <div id="dialog-content"></div>
+    <button id="dialog-close" class="control-button" type="button">Закрыть</button>
+  </dialog>
+</body>
+</html>
