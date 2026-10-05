@@ -144,23 +144,73 @@
     elements.calendar.innerHTML = renderTimeGrid(dates.map(day => day.date));
   }
 
+  function eventEndMinute(event) {
+    return event.end ? minute(event.end) : minute(event.start) + 90;
+  }
+
+  function layoutDayEvents(events) {
+    const ordered = [...events].sort((a, b) =>
+      minute(a.start) - minute(b.start) || eventEndMinute(b) - eventEndMinute(a));
+    const result = [];
+    let cluster = [];
+    let clusterEnd = -1;
+
+    function finishCluster() {
+      if (!cluster.length) return;
+      const columnEnds = [];
+      const placed = cluster.map(event => {
+        const start = minute(event.start);
+        let column = columnEnds.findIndex(end => end <= start);
+        if (column < 0) column = columnEnds.length;
+        columnEnds[column] = eventEndMinute(event);
+        return { event, column };
+      });
+      const columns = columnEnds.length;
+      result.push(...placed.map(item => ({ ...item, columns })));
+      cluster = [];
+      clusterEnd = -1;
+    }
+
+    for (const event of ordered) {
+      const start = minute(event.start);
+      if (cluster.length && start >= clusterEnd) finishCluster();
+      cluster.push(event);
+      clusterEnd = Math.max(clusterEnd, eventEndMinute(event));
+    }
+    finishCluster();
+    return result;
+  }
+
   function renderTimeGrid(dates) {
-    const starts = [...new Set(dates.flatMap(date => (visibleByDate.get(date) ?? []).map(event => event.start)))].sort();
-    if (!starts.length) return `<div class="empty-schedule">В этом периоде занятий нет.</div>`;
+    const displayed = dates.flatMap(date => visibleByDate.get(date) ?? []);
+    if (!displayed.length) return `<div class="empty-schedule">В этом периоде занятий нет.</div>`;
+    const startMinute = Math.min(7 * 60, ...displayed.map(event => Math.floor(minute(event.start) / 60) * 60));
+    const endMinute = Math.max(22 * 60, ...displayed.map(event => Math.ceil(eventEndMinute(event) / 60) * 60));
+    const hourHeight = 72;
+    const bodyHeight = (endMinute - startMinute) / 60 * hourHeight;
+    const hours = [];
+    for (let value = startMinute; value <= endMinute; value += 60) hours.push(value);
     const heads = dates.map(date => {
       const day = daysByDate.get(date);
-      return `<div class="time-grid__day"><span>${dayNames[day?.weekday ?? 0]}</span><strong>${escapeHtml(formatDate(date))}</strong>${day?.status ? `<small>${escapeHtml(day.status)}</small>` : ""}</div>`;
+      return `<div class="timeline__day"><span>${dayNames[day?.weekday ?? 0]}</span><strong>${escapeHtml(formatDate(date))}</strong>${day?.status ? `<small>${escapeHtml(day.status)}</small>` : ""}</div>`;
     }).join("");
-    const rows = starts.map(start => {
-      const entries = dates.flatMap(date => (visibleByDate.get(date) ?? []).filter(event => event.start === start));
-      const ends = [...new Set(entries.map(event => event.end).filter(Boolean))];
-      const label = ends.length === 1 && entries.every(event => event.end) ? `${start}<small>до ${ends[0]}</small>` : start;
-      return `<div class="time-grid__time">${label}</div>${dates.map(date => {
-        const atTime = (visibleByDate.get(date) ?? []).filter(event => event.start === start);
-        return `<div class="time-grid__cell">${atTime.map(eventCard).join("")}</div>`;
-      }).join("")}`;
+    const labels = hours.map(value => {
+      const top = (value - startMinute) / 60 * hourHeight;
+      const label = `${String(Math.floor(value / 60)).padStart(2, "0")}:00`;
+      return `<span style="top:${top}px">${label}</span>`;
     }).join("");
-    return `<div class="time-scroll"><div class="time-grid" style="--day-count:${dates.length}"><div class="time-grid__corner">ВРЕМЯ</div>${heads}${rows}</div></div>`;
+    const lanes = dates.map(date => {
+      const entries = layoutDayEvents(visibleByDate.get(date) ?? []);
+      const cards = entries.map(({ event, column, columns }) => {
+        const top = (minute(event.start) - startMinute) / 60 * hourHeight;
+        const height = Math.max(28, (eventEndMinute(event) - minute(event.start)) / 60 * hourHeight - 2);
+        const left = column / columns * 100;
+        const width = 100 / columns;
+        return `<div class="timeline-event" style="top:${top}px;height:${height}px;left:calc(${left}% + 2px);width:calc(${width}% - 4px)">${eventCard(event)}</div>`;
+      }).join("");
+      return `<div class="timeline__lane" style="--hour-height:${hourHeight}px">${cards}</div>`;
+    }).join("");
+    return `<div class="timeline-scroll"><div class="timeline" style="--day-count:${dates.length}"><div class="timeline__header"><div class="timeline__corner">ВРЕМЯ</div>${heads}</div><div class="timeline__body" style="height:${bodyHeight}px"><div class="timeline__axis">${labels}</div>${lanes}</div></div></div>`;
   }
 
   function monthGridDates(month) {

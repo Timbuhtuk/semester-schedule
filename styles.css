@@ -180,23 +180,30 @@ a { color: inherit; }
 .source-toggle[aria-pressed="false"] { opacity: .48; background: var(--canvas); }
 .source-toggle[aria-pressed="true"] { border-color: var(--text); }
 .optional-explainer { max-width: 900px; margin: 0 0 16px; color: var(--secondary); line-height: 1.6; }
-.time-scroll { overflow-x: auto; border: 1px solid var(--border); }
-.time-grid { display: grid; grid-template-columns: 80px repeat(var(--day-count), minmax(150px, 1fr)); gap: 1px; min-width: calc(80px + var(--day-count) * 150px + var(--day-count) * 1px); background: var(--border); }
-.time-grid__corner, .time-grid__day, .time-grid__time, .time-grid__cell { min-width: 0; background: var(--panel); }
-.time-grid__corner { position: sticky; left: 0; z-index: 3; display: flex; align-items: center; padding: 12px 8px; background: var(--raised); color: var(--muted); font-size: 10px; letter-spacing: .08em; }
-.time-grid__day { display: flex; flex-direction: column; gap: 4px; min-height: 71px; padding: 11px; background: var(--raised); }
-.time-grid__day span { color: var(--muted); font-size: 10px; text-transform: uppercase; }
-.time-grid__day strong { font-family: "Science Gothic", sans-serif; font-size: 19px; }
-.time-grid__day small { color: var(--muted); font-size: 9px; line-height: 1.3; }
-.time-grid__time { position: sticky; left: 0; z-index: 2; display: flex; flex-direction: column; gap: 5px; min-height: 67px; padding: 13px 8px; background: var(--raised); font-size: 12px; font-weight: 700; white-space: nowrap; }
-.time-grid__time small { color: var(--muted); font-size: 9px; font-weight: 400; }
-.time-grid__cell { display: grid; align-content: start; gap: 6px; min-height: 67px; padding: 6px; }
-.time-grid__cell .event-card { padding: 8px; }
-.time-grid__cell .event-card__top { margin-bottom: 5px; }
-.time-grid__cell .event-card__source { text-align: left; }
+.timeline-scroll { overflow: auto; max-height: min(78vh, 980px); border: 1px solid var(--border); background: var(--panel); }
+.timeline { min-width: calc(72px + var(--day-count) * 158px); }
+.timeline__header, .timeline__body { display: grid; grid-template-columns: 72px repeat(var(--day-count), minmax(158px, 1fr)); }
+.timeline__header { position: sticky; top: 0; z-index: 8; gap: 1px; background: var(--border); border-bottom: 1px solid var(--border); }
+.timeline__corner { position: sticky; left: 0; z-index: 10; display: flex; align-items: center; min-height: 72px; padding: 11px 8px; background: var(--raised); color: var(--muted); font-size: 10px; letter-spacing: .08em; }
+.timeline__day { display: flex; flex-direction: column; gap: 4px; min-width: 0; min-height: 72px; padding: 11px; background: var(--raised); }
+.timeline__day span { color: var(--muted); font-size: 10px; text-transform: uppercase; }
+.timeline__day strong { font-family: "Science Gothic", sans-serif; font-size: 19px; }
+.timeline__day small { color: var(--muted); font-size: 9px; line-height: 1.3; }
+.timeline__body { position: relative; gap: 1px; background: var(--border); }
+.timeline__axis { position: sticky; left: 0; z-index: 6; height: 100%; background: var(--raised); }
+.timeline__axis span { position: absolute; right: 8px; z-index: 2; color: var(--muted); font-size: 10px; line-height: 1; transform: translateY(-50%); white-space: nowrap; }
+.timeline__axis span:first-child { transform: none; }
+.timeline__axis span:last-child { transform: translateY(-100%); }
+.timeline__lane { position: relative; height: 100%; min-width: 0; background-color: var(--panel); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 35px, rgb(255 255 255 / .035) 35px, rgb(255 255 255 / .035) 36px, transparent 36px, transparent 71px, var(--border) 71px, var(--border) 72px); }
+.timeline-event { position: absolute; z-index: 2; min-width: 0; }
+.timeline-event .event-card { height: 100%; padding: 7px 8px; overflow: hidden; }
+.timeline-event .event-card__top { margin-bottom: 4px; }
+.timeline-event .event-card__source { display: block; overflow: hidden; text-align: left; text-overflow: ellipsis; white-space: nowrap; }
+.timeline-event .event-card__title { display: -webkit-box; overflow: hidden; font-size: 14px; -webkit-box-orient: vertical; -webkit-line-clamp: 3; }
+.timeline-event .event-card__flag { max-width: 100%; margin-top: 6px; overflow: hidden; font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
 .empty-schedule { padding: 25px; border: 1px solid var(--border); background: var(--panel); color: var(--muted); }
-.day-detail .time-grid { grid-template-columns: 80px minmax(220px, 1fr); min-width: 0; }
-.day-detail .time-grid__cell { min-height: 62px; }
+.day-detail .timeline { min-width: 0; }
+.day-detail .timeline__header, .day-detail .timeline__body { grid-template-columns: 72px minmax(220px, 1fr); }
 
 .progress { padding-top: 36px; }
 .progress h2 { margin: 7px 0 0; font-family: "Science Gothic", sans-serif; font-size: clamp(26px, 3vw, 34px); }
@@ -291,8 +298,9 @@ a { color: inherit; }
   .footer { flex-direction: column; }
   .mode-tabs { flex-wrap: wrap; }
   .mode-tab { min-width: 33%; padding: 10px 8px; font-size: 11px; text-align: center; }
-  .time-grid { min-width: calc(68px + var(--day-count) * 160px); grid-template-columns: 68px repeat(var(--day-count), minmax(160px, 1fr)); }
-  .time-grid__time { font-size: 11px; }
+  .timeline { min-width: calc(62px + var(--day-count) * 150px); }
+  .timeline__header, .timeline__body { grid-template-columns: 62px repeat(var(--day-count), minmax(150px, 1fr)); }
+  .timeline__axis span { right: 6px; font-size: 9px; }
   .attendance-list, .work-grid { grid-template-columns: 1fr; }
   .work-items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
@@ -315,6 +323,6 @@ a { color: inherit; }
   .page-shell { width: 100%; }
   .toolbar, .view-switch, .reference-link, .method, .event-dialog, .mode-tabs, .source-toggles { display: none !important; }
   .day-column, .event-card, .day-head, .summary-item, .conflict-card { background: white; color: black; }
-  .time-scroll { overflow: visible; }
-  .time-grid { min-width: 0; }
+  .timeline-scroll { max-height: none; overflow: visible; }
+  .timeline { min-width: 0; }
 }
