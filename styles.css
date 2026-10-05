@@ -69,16 +69,7 @@ a { color: inherit; }
 .reference-link { color: var(--muted); font-size: 11px; text-decoration: none; }
 .reference-link:hover { color: var(--text); text-decoration: underline; text-underline-offset: 4px; }
 
-.intro { display: grid; grid-template-columns: minmax(0, 1fr) 248px; gap: 24px; min-height: 288px; padding: 42px 0 36px; border-bottom: 1px solid var(--border); }
 .eyebrow { margin: 0; color: var(--muted); font-size: 11px; letter-spacing: .15em; }
-.intro h1 { margin: 14px 0 14px; font-family: "Science Gothic", "Cascadia Code", sans-serif; font-size: clamp(37px, 4.8vw, 67px); font-stretch: 88%; line-height: .99; letter-spacing: -.035em; }
-.intro h1 span { color: var(--muted); }
-.intro-copy { max-width: 630px; margin: 0; color: var(--secondary); font-size: 13px; line-height: 1.75; }
-.intro-aside { display: flex; flex-direction: column; align-items: flex-start; justify-content: flex-end; padding: 22px; border: 1px solid var(--border); background: var(--panel); }
-.intro-aside__number { font-family: "Science Gothic", sans-serif; font-size: 93px; font-weight: 700; line-height: .9; letter-spacing: -.07em; }
-.intro-aside__caption { margin-top: 11px; line-height: 1.5; letter-spacing: .12em; }
-.intro-aside__line { width: 100%; height: 1px; margin: 16px 0 11px; background: var(--border); }
-.intro-aside__small { color: var(--muted); font-size: 10px; letter-spacing: .1em; }
 
 .planner { padding-top: 33px; }
 .section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: 20px; }
@@ -271,10 +262,7 @@ a { color: inherit; }
   .masthead { min-height: 59px; }
   .brand-copy { font-size: 11px; }
   .brand-copy small { display: none; }
-  .reference-link { max-width: 100px; text-align: right; line-height: 1.3; }
-  .intro { grid-template-columns: 1fr; min-height: 0; padding: 30px 0; }
-  .intro-aside { display: none; }
-  .intro h1 { font-size: clamp(37px, 10vw, 55px); }
+  .reference-link { line-height: 1.3; }
   .section-heading { align-items: flex-end; }
   .view-switch .control-button { min-width: 68px; padding-inline: 8px; }
   .toolbar { flex-direction: column; }
