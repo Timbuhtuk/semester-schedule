@@ -14,6 +14,7 @@
   const formatDate = (iso, options = { day: "numeric", month: "long" }) =>
     new Intl.DateTimeFormat("ru-RU", { ...options, timeZone: "UTC" }).format(asDate(iso));
   const minute = time => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5));
+  const clock = value => `${String(Math.floor(value / 60) % 24).padStart(2, "0")}:${String(value % 60).padStart(2, "0")}`;
   const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
   })[character]);
@@ -27,10 +28,10 @@
         for (let e = q + 1; e < events.length; e++) {
           const first = events[q];
           const second = events[e];
-          const firstEnd = first.end ? minute(first.end) : minute(first.start) + 90;
-          const secondEnd = second.end ? minute(second.end) : minute(second.start) + 90;
+          const firstEnd = eventEndMinute(first);
+          const secondEnd = eventEndMinute(second);
           if (Math.max(minute(first.start), minute(second.start)) >= Math.min(firstEnd, secondEnd)) continue;
-          const pair = { date, first, second, possible: !first.end || !second.end };
+          const pair = { date, first, second, possible: !eventHasKnownEnd(first) || !eventHasKnownEnd(second) };
           pairs.push(pair);
           if (!byDate.has(date)) byDate.set(date, []);
           byDate.get(date).push(pair);
@@ -119,7 +120,9 @@
   }
 
   function eventTime(event) {
-    return event.end ? `${event.start}–${event.end}` : `${event.start} · конец неизвестен`;
+    if (event.end) return `${event.start}–${event.end}`;
+    if (event.source === "second") return `${event.start}–${clock(eventEndMinute(event))}`;
+    return `${event.start} · конец неизвестен`;
   }
 
   function eventCard(event) {
@@ -140,7 +143,12 @@
   }
 
   function eventEndMinute(event) {
-    return event.end ? minute(event.end) : minute(event.start) + 90;
+    if (event.end) return minute(event.end);
+    return minute(event.start) + (event.source === "second" ? 190 : 90);
+  }
+
+  function eventHasKnownEnd(event) {
+    return Boolean(event.end) || event.source === "second";
   }
 
   function layoutDayEvents(events) {
@@ -247,7 +255,7 @@
   function renderConflicts() {
     const pairs = periodConflicts();
     elements.conflicts.innerHTML = `<div class="conflicts-head"><div><p class="eyebrow">ВРЕМЯ / СОВПАДЕНИЯ</p><h2 id="conflicts-title">Пересечения</h2></div><span>${pairs.length} в выбранном периоде</span></div>${pairs.length ?
-      `<div class="conflict-grid">${pairs.map(pair => `<article class="conflict-card"><span class="conflict-card__date">${escapeHtml(formatDate(pair.date, { weekday: "long", day: "numeric", month: "long" }))} · ${pair.possible ? "ВОЗМОЖНОЕ" : "ПОДТВЕРЖДЁННОЕ"}</span><div class="conflict-card__pair"><b>${escapeHtml(pair.first.start)}</b><span>${escapeHtml(pair.first.title)}</span><b>${escapeHtml(pair.second.start)}</b><span>${escapeHtml(pair.second.title)}</span></div><p class="conflict-card__reason">${pair.possible ? "Конец занятия второго университета неизвестен. Проверь фактическую длительность." : "Время занятий пересекается."}</p></article>`).join("")}</div>` :
+      `<div class="conflict-grid">${pairs.map(pair => `<article class="conflict-card"><span class="conflict-card__date">${escapeHtml(formatDate(pair.date, { weekday: "long", day: "numeric", month: "long" }))} · ${pair.possible ? "ВОЗМОЖНОЕ" : "ПОДТВЕРЖДЁННОЕ"}</span><div class="conflict-card__pair"><b>${escapeHtml(pair.first.start)}</b><span>${escapeHtml(pair.first.title)}</span><b>${escapeHtml(pair.second.start)}</b><span>${escapeHtml(pair.second.title)}</span></div><p class="conflict-card__reason">${pair.possible ? "Окончание одного из занятий неизвестно." : "Время занятий пересекается."}</p></article>`).join("")}</div>` :
       `<div class="conflicts-empty">В выбранном периоде пересечений нет.</div>`}`;
   }
 
@@ -365,7 +373,7 @@
     if (!event) return;
     const related = conflicts?.byEvent.get(id) ?? [];
     const warning = related.length ? `<p class="event-dialog__warning">${related.some(pair => !pair.possible) ? "Подтверждённое пересечение" : "Возможное пересечение"}: ${related.map(pair => escapeHtml((pair.first.id === id ? pair.second : pair.first).title)).join(", ")}.</p>` : "";
-    elements.dialogContent.innerHTML = `<p class="eyebrow">${escapeHtml(sourceNames[event.source])} / ${escapeHtml(formatDate(event.date, { weekday: "long", day: "numeric", month: "long" }))}</p><h2 id="dialog-title">${escapeHtml(event.title)}</h2><p class="event-dialog__time">${escapeHtml(eventTime(event))}</p>${event.note ? `<p class="event-dialog__warning">${escapeHtml(event.note)}</p>` : ""}${warning}${!event.end ? `<p>Для ХНУРЕ указано только время начала.</p>` : ""}`;
+    elements.dialogContent.innerHTML = `<p class="eyebrow">${escapeHtml(sourceNames[event.source])} / ${escapeHtml(formatDate(event.date, { weekday: "long", day: "numeric", month: "long" }))}</p><h2 id="dialog-title">${escapeHtml(event.title)}</h2><p class="event-dialog__time">${escapeHtml(eventTime(event))}</p>${event.note ? `<p class="event-dialog__warning">${escapeHtml(event.note)}</p>` : ""}${warning}${event.source === "second" ? `<p>Длительность: 3 часа 10 минут.</p>` : ""}`;
     elements.dialog.showModal();
   }
 
