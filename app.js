@@ -394,8 +394,10 @@
     const event = [...data.events, ...data.optionalRetakes].find(item => item.id === id);
     if (!event) return;
     const related = conflicts?.byEvent.get(id) ?? [];
+    const roomName = event.room ?? data.rooms?.[event.title];
+    const room = roomName ? `<p class="event-dialog__room"><span>Аудитория</span><strong>${escapeHtml(roomName)}</strong></p>` : "";
     const warning = related.length ? `<p class="event-dialog__warning">${related.some(pair => !pair.possible) ? "Подтверждённое пересечение" : "Возможное пересечение"}: ${related.map(pair => escapeHtml((pair.first.id === id ? pair.second : pair.first).title)).join(", ")}.</p>` : "";
-    elements.dialogContent.innerHTML = `<p class="eyebrow">${escapeHtml(sourceNames[event.source])} / ${escapeHtml(formatDate(event.date, { weekday: "long", day: "numeric", month: "long" }))}</p><h2 id="dialog-title">${escapeHtml(event.title)}</h2><p class="event-dialog__time">${escapeHtml(eventTime(event))}</p>${event.note ? `<p class="event-dialog__warning">${escapeHtml(event.note)}</p>` : ""}${warning}${event.source === "second" ? `<p>Длительность: 3 часа 10 минут.</p>` : ""}`;
+    elements.dialogContent.innerHTML = `<p class="eyebrow">${escapeHtml(sourceNames[event.source])} / ${escapeHtml(formatDate(event.date, { weekday: "long", day: "numeric", month: "long" }))}</p><h2 id="dialog-title">${escapeHtml(event.title)}</h2><p class="event-dialog__time">${escapeHtml(eventTime(event))}</p>${room}${event.note ? `<p class="event-dialog__warning">${escapeHtml(event.note)}</p>` : ""}${warning}${event.source === "second" ? `<p>Длительность: 3 часа 10 минут.</p>` : ""}`;
     elements.dialog.showModal();
   }
 

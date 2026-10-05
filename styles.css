@@ -258,6 +258,9 @@ a { color: inherit; }
 .event-dialog p { color: var(--secondary); line-height: 1.55; }
 .event-dialog .control-button { margin-top: 13px; }
 .event-dialog__time { color: var(--text) !important; font-size: 16px; font-weight: 700; }
+.event-dialog__room { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin: 14px 0; padding: 11px 13px; border: 1px solid var(--border); background: var(--raised); }
+.event-dialog__room span { color: var(--muted); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }
+.event-dialog__room strong { color: var(--text); font-family: "Science Gothic", sans-serif; font-size: 18px; }
 .event-dialog__warning { color: var(--alert) !important; }
 
 @media (max-width: 1120px) {
