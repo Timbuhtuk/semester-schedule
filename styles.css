@@ -47,6 +47,7 @@
   --second: #c7b2f2;
   --sport: #aedab9;
   --alert: #ffbe75;
+  --now: #ff5f57;
   font-family: "Cascadia Code", Consolas, monospace;
   font-size: 13px;
 }
@@ -185,7 +186,10 @@ a { color: inherit; }
 .timeline__axis span { position: absolute; right: 8px; z-index: 2; color: var(--muted); font-size: 10px; line-height: 1; transform: translateY(-50%); white-space: nowrap; }
 .timeline__axis span:first-child { transform: none; }
 .timeline__axis span:last-child { transform: translateY(-100%); }
+.timeline__axis .timeline-now-label { right: 4px; z-index: 7; padding: 2px 3px; background: var(--now); color: var(--canvas); font-weight: 700; transform: translateY(-50%); }
 .timeline__lane { position: relative; height: 100%; min-width: 0; background-color: var(--panel); background-image: repeating-linear-gradient(to bottom, transparent 0, transparent 35px, rgb(255 255 255 / .035) 35px, rgb(255 255 255 / .035) 36px, transparent 36px, transparent 71px, var(--border) 71px, var(--border) 72px); }
+.timeline-now { position: absolute; right: 0; left: 0; z-index: 6; height: 2px; background: var(--now); pointer-events: none; }
+.timeline-now::before { position: absolute; top: -4px; left: -4px; width: 10px; height: 10px; border-radius: 50%; background: var(--now); content: ""; }
 .timeline-event { position: absolute; z-index: 2; min-width: 0; }
 .timeline-event .event-card { height: 100%; padding: 7px 8px; overflow: hidden; }
 .timeline-event .event-card__top { margin-bottom: 4px; }

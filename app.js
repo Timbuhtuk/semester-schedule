@@ -15,6 +15,9 @@
     new Intl.DateTimeFormat("ru-RU", { ...options, timeZone: "UTC" }).format(asDate(iso));
   const minute = time => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5));
   const clock = value => `${String(Math.floor(value / 60) % 24).padStart(2, "0")}:${String(value % 60).padStart(2, "0")}`;
+  const localDateFormat = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Kyiv", year: "numeric", month: "2-digit", day: "2-digit" });
+  const localTimeFormat = new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Kyiv", hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+  const currentMinute = () => minute(localTimeFormat.format(new Date()));
   const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
   })[character]);
@@ -56,7 +59,7 @@
 
   const query = new URLSearchParams(location.search);
   const legacyOptionalMode = query.get("mode") === "optional";
-  const today = new Intl.DateTimeFormat("sv-SE", { timeZone: "Europe/Kyiv", year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date());
+  let today = localDateFormat.format(new Date());
   const initialDate = query.get("date") && /^202[67]-\d\d-\d\d$/.test(query.get("date")) ? query.get("date") : today;
   const clampedDate = initialDate < data.meta.start ? data.meta.start : initialDate > data.meta.end ? data.meta.end : initialDate;
   const findWeek = date => {
@@ -191,6 +194,7 @@
     const endMinute = Math.max(22 * 60, ...displayed.map(event => Math.ceil(eventEndMinute(event) / 60) * 60));
     const hourHeight = 72;
     const bodyHeight = (endMinute - startMinute) / 60 * hourHeight;
+    const now = currentMinute();
     const hours = [];
     for (let value = startMinute; value <= endMinute; value += 60) hours.push(value);
     const heads = dates.map(date => {
@@ -202,8 +206,12 @@
       const label = `${String(Math.floor(value / 60)).padStart(2, "0")}:00`;
       return `<span style="top:${top}px">${label}</span>`;
     }).join("");
+    const nowLabel = dates.includes(today) && now >= startMinute && now <= endMinute ?
+      `<span class="timeline-now-label" style="top:${(now - startMinute) / 60 * hourHeight}px">${clock(now)}</span>` : "";
     const lanes = dates.map(date => {
       const entries = layoutDayEvents(visibleByDate.get(date) ?? []);
+      const nowLine = date === today && now >= startMinute && now <= endMinute ?
+        `<div class="timeline-now" style="top:${(now - startMinute) / 60 * hourHeight}px" aria-hidden="true"></div>` : "";
       const cards = entries.map(({ event, column, columns }) => {
         const top = (minute(event.start) - startMinute) / 60 * hourHeight;
         const height = Math.max(28, (eventEndMinute(event) - minute(event.start)) / 60 * hourHeight - 2);
@@ -211,9 +219,9 @@
         const width = 100 / columns;
         return `<div class="timeline-event" style="top:${top}px;height:${height}px;left:calc(${left}% + 2px);width:calc(${width}% - 4px)">${eventCard(event)}</div>`;
       }).join("");
-      return `<div class="timeline__lane" style="--hour-height:${hourHeight}px">${cards}</div>`;
+      return `<div class="timeline__lane" style="--hour-height:${hourHeight}px">${cards}${nowLine}</div>`;
     }).join("");
-    return `<div class="timeline-scroll"><div class="timeline" style="--day-count:${dates.length}"><div class="timeline__header"><div class="timeline__corner">ВРЕМЯ</div>${heads}</div><div class="timeline__body" style="height:${bodyHeight}px"><div class="timeline__axis">${labels}</div>${lanes}</div></div></div>`;
+    return `<div class="timeline-scroll"><div class="timeline" style="--day-count:${dates.length}"><div class="timeline__header"><div class="timeline__corner">ВРЕМЯ</div>${heads}</div><div class="timeline__body" style="height:${bodyHeight}px"><div class="timeline__axis">${labels}${nowLabel}</div>${lanes}</div></div></div>`;
   }
 
   function monthGridDates(month) {
@@ -437,4 +445,8 @@
   });
 
   render();
+  setInterval(() => {
+    today = localDateFormat.format(new Date());
+    if (state.mode !== "progress") render();
+  }, 60000);
 })();
