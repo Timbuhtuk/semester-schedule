@@ -210,6 +210,10 @@ a { color: inherit; }
 .progress-section__head { margin-bottom: 14px; }
 .progress-section h3 { margin: 5px 0 0; font-family: "Science Gothic", sans-serif; font-size: 25px; }
 .attendance-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; border: 1px solid var(--border); background: var(--border); }
+.attendance-groups { display: grid; gap: 22px; }
+.attendance-kind__head { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 9px; }
+.attendance-kind__head h4 { margin: 0; font-family: "Science Gothic", sans-serif; font-size: 19px; }
+.attendance-kind__head span { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }
 .attendance-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 66px; padding: 12px 15px; background: var(--panel); }
 .attendance-row > div:first-child { display: grid; gap: 4px; }
 .attendance-row strong { font-family: "Science Gothic", sans-serif; font-size: 16px; }

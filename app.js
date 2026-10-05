@@ -296,13 +296,19 @@
     elements.periodSelect.value = String(index);
   }
 
-  const attendanceNames = ["PTS", "OS", "Базы данных", "GTC", "PIII", "ES", "IP", "Немецкий", "Математика · долг", "Архитектура · долг", "Физкультура"];
-  function attendanceName(event) {
+  const attendanceSections = [
+    { key: "лабы", title: "Лабы", subjects: ["PTS", "OS", "Базы данных", "GTC", "PIII", "ES", "IP", "Немецкий", "Математика · долг", "Архитектура · долг", "Физкультура"] },
+    { key: "лекции", title: "Лекции", subjects: ["PTS", "OS", "Базы данных", "GTC", "PIII", "ES"] },
+  ];
+  function attendanceSubject(event) {
     if (event.source === "sport") return "Физкультура";
     if (event.source === "retake") return event.title.startsWith("Математика") ? "Математика · долг" : "Архитектура · долг";
     if (event.title === "Немецкий") return "Немецкий";
     if (event.title.includes("Базы данных")) return "Базы данных";
     return event.title.split(/[ ,(]/)[0];
+  }
+  function attendanceKey(event) {
+    return `${attendanceSubject(event)} · ${event.title.includes("(лекция)") ? "лекции" : "лабы"}`;
   }
   let progressData;
   try {
@@ -314,10 +320,17 @@
     catch { document.getElementById("storage-note").textContent = "Браузер не разрешил сохранить отметки."; }
   }
   function renderProgress() {
-    const attendance = attendanceNames.map(name => {
-      const count = Math.max(0, Number(progressData.attendance[name]) || 0);
-      const planned = data.events.filter(event => event.source !== "second" && attendanceName(event) === name).length;
-      return `<div class="attendance-row"><div><strong>${escapeHtml(name)}</strong><small>Запланировано: ${planned}</small></div><div class="counter"><button type="button" data-count-name="${escapeHtml(name)}" data-delta="-1" aria-label="Уменьшить: ${escapeHtml(name)}">−</button><output>${count}</output><button type="button" data-count-name="${escapeHtml(name)}" data-delta="1" aria-label="Увеличить: ${escapeHtml(name)}">+</button></div></div>`;
+    const attendanceKeys = [];
+    const attendance = attendanceSections.map(section => {
+      const rows = section.subjects.map(subject => {
+        const key = `${subject} · ${section.key}`;
+        attendanceKeys.push(key);
+        const count = Math.max(0, Number(progressData.attendance[key]) || 0);
+        const planned = data.events.filter(event => event.source !== "second" && attendanceKey(event) === key).length;
+        return `<div class="attendance-row"><div><strong>${escapeHtml(subject)}</strong><small>Запланировано: ${planned}</small></div><div class="counter"><button type="button" data-count-name="${escapeHtml(key)}" data-delta="-1" aria-label="Уменьшить: ${escapeHtml(subject)}, ${escapeHtml(section.title.toLowerCase())}">−</button><output>${count}</output><button type="button" data-count-name="${escapeHtml(key)}" data-delta="1" aria-label="Увеличить: ${escapeHtml(subject)}, ${escapeHtml(section.title.toLowerCase())}">+</button></div></div>`;
+      }).join("");
+      const planned = data.events.filter(event => event.source !== "second" && attendanceKey(event).endsWith(` · ${section.key}`)).length;
+      return `<section class="attendance-kind"><div class="attendance-kind__head"><h4>${escapeHtml(section.title)}</h4><span>${planned} запланировано</span></div><div class="attendance-list">${rows}</div></section>`;
     }).join("");
     const works = data.courses.map(course => {
       const items = data.workItems.filter(item => item.code === course.code);
@@ -325,7 +338,8 @@
       return `<article class="work-course"><div class="work-course__head"><div><span class="eyebrow">${escapeHtml(course.code)} · ${escapeHtml(course.teacher)}</span><h4>${escapeHtml(course.name)}</h4></div><strong>${done} / ${items.length}</strong></div>${items.length ? `<div class="work-items">${items.map(item => `<label class="work-item"><input type="checkbox" data-work-id="${escapeHtml(item.id)}"${progressData.completed[item.id] ? " checked" : ""}><span>${escapeHtml(item.type)} ${item.number}${item.note ? ` <small title="${escapeHtml(item.note)}">(?)</small>` : ""}</span></label>`).join("")}</div>` : `<p class="no-works">Лабораторных, практических и тестов в списке нет.</p>`}</article>`;
     }).join("");
     const completed = data.workItems.filter(item => progressData.completed[item.id]).length;
-    elements.progressContent.innerHTML = `<div class="progress-summary"><span>ХНУРЕ: <strong>${completed} / ${data.workItems.length}</strong> работ</span><span id="storage-note">Отметки сохраняются на этом устройстве.</span></div><div class="progress-section"><div class="progress-section__head"><p class="eyebrow">UVT</p><h3>Посещения</h3></div><div class="attendance-list">${attendance}</div></div><div class="progress-section"><div class="progress-section__head"><p class="eyebrow">ХНУРЕ</p><h3>Работы</h3></div><div class="work-grid">${works}</div></div>`;
+    const visits = attendanceKeys.reduce((sum, key) => sum + Math.max(0, Number(progressData.attendance[key]) || 0), 0);
+    elements.progressContent.innerHTML = `<div class="progress-summary"><span>UVT: <strong>${visits}</strong> посещений</span><span>ХНУРЕ: <strong>${completed} / ${data.workItems.length}</strong> работ</span><span id="storage-note">Отметки сохраняются на этом устройстве.</span></div><div class="progress-section"><div class="progress-section__head"><p class="eyebrow">UVT</p><h3>Посещения</h3></div><div class="attendance-groups">${attendance}</div></div><div class="progress-section"><div class="progress-section__head"><p class="eyebrow">ХНУРЕ</p><h3>Работы</h3></div><div class="work-grid">${works}</div></div>`;
   }
 
   function updateAddress() {
