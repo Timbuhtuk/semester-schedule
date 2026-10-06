@@ -735,8 +735,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e1",
       "date": "2026-09-30",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -871,8 +871,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e18",
       "date": "2026-10-07",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -1007,8 +1007,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e35",
       "date": "2026-10-14",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -1152,8 +1152,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e53",
       "date": "2026-10-21",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -1304,8 +1304,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e72",
       "date": "2026-10-28",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -1440,8 +1440,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e89",
       "date": "2026-11-04",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -1592,8 +1592,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e108",
       "date": "2026-11-11",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -1744,8 +1744,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e127",
       "date": "2026-11-18",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -1888,8 +1888,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e145",
       "date": "2026-11-25",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -2040,8 +2040,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e164",
       "date": "2026-12-02",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -2152,8 +2152,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e178",
       "date": "2026-12-09",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -2280,8 +2280,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e194",
       "date": "2026-12-16",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -2448,8 +2448,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e215",
       "date": "2027-01-13",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
@@ -2568,8 +2568,8 @@ window.SCHEDULE_DATA = {
     {
       "id": "e230",
       "date": "2027-01-20",
-      "start": "08:00",
-      "end": "09:30",
+      "start": "16:20",
+      "end": "17:50",
       "source": "uvt",
       "title": "PTS, гр. 4"
     },
