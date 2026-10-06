@@ -862,7 +862,7 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e17",
-      "date": "2026-10-07",
+      "date": "2026-11-26",
       "start": "07:45",
       "end": null,
       "source": "second",
