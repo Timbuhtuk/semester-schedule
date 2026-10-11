@@ -750,9 +750,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e3",
-      "date": "2026-10-02",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-09-28",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -886,9 +886,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e20",
-      "date": "2026-10-09",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-10-05",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -1022,9 +1022,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e37",
-      "date": "2026-10-16",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-10-12",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -1167,9 +1167,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e55",
-      "date": "2026-10-23",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-10-19",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -1319,9 +1319,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e74",
-      "date": "2026-10-30",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-10-26",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -1455,9 +1455,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e91",
-      "date": "2026-11-06",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-11-02",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -1607,9 +1607,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e110",
-      "date": "2026-11-13",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-11-09",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -1759,9 +1759,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e129",
-      "date": "2026-11-20",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-11-16",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -1903,9 +1903,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e147",
-      "date": "2026-11-27",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-11-23",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -2055,9 +2055,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e166",
-      "date": "2026-12-04",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-11-30",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -2167,9 +2167,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e180",
-      "date": "2026-12-11",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-12-07",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -2295,9 +2295,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e196",
-      "date": "2026-12-18",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2026-12-14",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -2463,9 +2463,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e217",
-      "date": "2027-01-15",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2027-01-11",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
@@ -2583,9 +2583,9 @@ window.SCHEDULE_DATA = {
     },
     {
       "id": "e232",
-      "date": "2027-01-22",
-      "start": "08:45",
-      "end": "11:00",
+      "date": "2027-01-18",
+      "start": "10:20",
+      "end": "12:00",
       "source": "sport",
       "title": "Физкультура"
     },
